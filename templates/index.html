@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    Sign in
+    <form method="POST" action="/auth/">
+        {% csrf_token %}
+        {{ auth_form.email }}
+        {{ auth_form.password }}
+        <input type="hidden" name="type" value="IN"/>
+        <input type="submit" value="Sign in"/>
+    </form>
+
+    Sign up
+    <form method="POST" action="/auth/">
+        {% csrf_token %}
+        {{ auth_form.email }}
+        {{ auth_form.password }}
+        <input type="hidden" name="type" value="UP"/>
+        <input type="submit" value="Sign up"/>
+    </form>
+{% endblock %}

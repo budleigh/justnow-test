@@ -1,0 +1,14 @@
+{% extends "loggedin_base.html" %}
+
+{% block content %}
+    hello, {{ user }}
+
+    <form id="form_entry_date">
+        <input placeholder="Choose an entry date" type="text" class="datepicker" name="date"/>
+        <input type="submit" value="Go to entry"/>
+    </form>
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script src="/static/js/jn_home.js"></script>
+{% endblock %}
