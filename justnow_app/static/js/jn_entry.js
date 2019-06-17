@@ -14,9 +14,18 @@ function handleSave() {
 }
 
 function save() {
-    $.post(`entry/${entryDate}/save`, {
+    $.post(`/entry/${entryDate}/save`, {
         text: editor.html.get(true),
     }, () => {
         $('#saved').text('Saved!');
     }, 'json');
 }
+
+$('#ask').submit((e) => {
+    e.preventDefault();
+    $.post(`/entry/${entryDate}/ask`, {
+        question: $('#question-input').val(),
+    }, () => {
+        $('#question-input').val('');
+    }, 'json');
+});

@@ -23,5 +23,6 @@ urlpatterns = [
     path('auth/', auth),
     path('entry/<date>', entry, name='entry'),
     path('entry/<date>/save', save),
+    path('entry/<date>/ask', ask),
     path('admin/', admin.site.urls),
 ]

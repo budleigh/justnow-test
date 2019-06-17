@@ -1,6 +1,8 @@
 from dateutil import parser
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -35,12 +37,28 @@ def entry(request, date=None):
     })
 
 
+@csrf_exempt
 @require_POST
 @login_required
 def save(request, date=None):
     day_entry, _ = Entry.objects.get_or_create(user=request.user, date=parser.parse(date))
     day_entry.text = request.POST['text']
     day_entry.save()
+    return HttpResponse(status=200)
+
+
+@csrf_exempt
+@require_POST
+@login_required
+def ask(request, date=None):
+    question_text = request.POST['question']
+    entry, _ = Entry.objects.get_or_create(user=request.user, date=parser.parse(date))
+    question = Question(
+        entry=entry,
+        text=question_text,
+    )
+    question.save()
+    return HttpResponse(status=200)
 
 
 @require_POST
