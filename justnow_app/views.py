@@ -1,3 +1,4 @@
+import random
 from dateutil import parser
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -34,6 +35,7 @@ def entry(request, date=None):
     return render(request, 'entry.html', {
         'entry': day_entry,
         'date': date,
+        'question': Question.objects.random() if random.random() > 0.75 else None,
     })
 
 
@@ -44,7 +46,7 @@ def save(request, date=None):
     day_entry, _ = Entry.objects.get_or_create(user=request.user, date=parser.parse(date))
     day_entry.text = request.POST['text']
     day_entry.save()
-    return HttpResponse(status=200)
+    return HttpResponse(status=201)
 
 
 @csrf_exempt
@@ -58,7 +60,18 @@ def ask(request, date=None):
         text=question_text,
     )
     question.save()
-    return HttpResponse(status=200)
+    return HttpResponse(status=201)
+
+
+@csrf_exempt
+@require_POST
+@login_required
+def answer(request, question_id=None):
+    question = Question.objects.get(pk=question_id)
+    question.answers.add(Answer.objects.create(
+        text=request.POST['answer'],
+        private=request.POST['private'],
+    ))
 
 
 @require_POST

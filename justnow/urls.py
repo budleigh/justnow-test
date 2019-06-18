@@ -24,5 +24,6 @@ urlpatterns = [
     path('entry/<date>', entry, name='entry'),
     path('entry/<date>/save', save),
     path('entry/<date>/ask', ask),
+    path('question/<question_id>/answer', answer),
     path('admin/', admin.site.urls),
 ]

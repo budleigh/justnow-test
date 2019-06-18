@@ -2,7 +2,10 @@ let editor = new FroalaEditor('#text', {
     events: {
         'keydown': handleSave,
     },
+}, () => {
+    editor.html.set(entryText);
 });
+
 let typeTimeout = null;
 
 function handleSave() {
@@ -14,18 +17,29 @@ function handleSave() {
 }
 
 function save() {
-    $.post(`/entry/${entryDate}/save`, {
-        text: editor.html.get(true),
-    }, () => {
-        $('#saved').text('Saved!');
-    }, 'json');
+    $.ajax({
+        type: "POST",
+        url: `/entry/${entryDate}/save`,
+        data: {
+            text: editor.html.get(true),
+        },
+        success: () => {
+            $('#saved').text('Saved!');
+        },
+    });
 }
 
 $('#ask').submit((e) => {
     e.preventDefault();
-    $.post(`/entry/${entryDate}/ask`, {
-        question: $('#question-input').val(),
-    }, () => {
-        $('#question-input').val('');
-    }, 'json');
+
+    $.ajax({
+        type: "POST",
+        url: `/entry/${entryDate}/ask`,
+        data: {
+            question: $('#question-input').val()
+        },
+        success: () => {
+            $('#question-input').val('');
+        },
+    });
 });
