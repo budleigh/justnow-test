@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block content %}
+    <p><a href="/home/">Home</a></p>
     <p>Entry for {{ date }} - <span id="saved">Saved!</span></p>
 
     <div id="text"></div>
@@ -29,6 +30,8 @@
         </form>
     </div>
     {% endif %}
+
+    <hr/>
 
     <div>
         <form id="ask" method="POST">
@@ -52,6 +55,10 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
+
+    <div style="text-align: center">
+        <p><img src="/static/img/party.gif"/></p>
     </div>
 {% endblock %}
 
