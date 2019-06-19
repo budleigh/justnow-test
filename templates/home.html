@@ -1,17 +1,17 @@
 {% extends "loggedin_base.html" %}
 
 {% block content %}
-    hello, {{ user }}
+    hello, {{ user }}!
+    <img src="/static/img/welcome.gif"/>
     <a href="/logout/">Logout</a>
     <form id="form_entry_date">
         <input placeholder="Choose an entry date" type="text" class="datepicker" name="date"/>
         <input type="submit" value="Go to entry"/>
     </form>
 
-    <form id="answer_entry_date">
-        <input placeholder="Choose an entry date" type="text" class="datepicker" name="date"/>
-        <input type="submit" value="Go to entry"/>
-    </form>
+    <div style="text-align: center">
+        <p><img src="/static/img/construction.gif"/></p>
+    </div>
 {% endblock %}
 
 {% block bottom_scripts %}
