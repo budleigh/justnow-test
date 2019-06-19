@@ -6,7 +6,10 @@
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.0.0/js/froala_editor.pkgd.min.js'></script>
     <script>
         let entryDate = '{{ date }}';
-        let entryText = '{{ entry.text }}';
+        let entryText = '{{ entry.text|safe }}';
+        {% if question %}
+        let questionId = '{{ question.id }}'
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -17,23 +20,38 @@
 
     {% if question %}
     <div id="question">
-        <form method="POST" action="/question/{{ question.id }}/answer">
+        <form id="answer" method="POST">
             Someone asked on {{ question.entry.date }}: {{ question.text }} <br/>
             {% csrf_token %}
             <input type="checkbox" name="private" value="YES">Private answer
-            <input type="text" name="answer" placeholder="answer"/>
+            <input id="answer-input" type="text" name="answer" placeholder="answer"/>
             <input type="submit" value="Answer"/>
         </form>
     </div>
     {% endif %}
 
     <div>
-        <form id="ask" method="POST" action="/entry/{{ date }}/ask">
+        <form id="ask" method="POST">
             Ask your future self or another user's future self a question!
             {% csrf_token %}
             <input id="question-input" type="text" name="question" placeholder="Ask a question"/>
             <input type="submit" value="Ask"/>
         </form>
+    </div>
+
+    <div>
+        <ul>
+            {% for question in asked_questions %}
+                {{ question.text }}
+                <li>
+                    <ul>
+                        {% for answer in question.answers.all %}
+                            <li>On {{ answer.date }}, someone answered: {{ answer.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
 

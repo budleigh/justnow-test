@@ -43,3 +43,18 @@ $('#ask').submit((e) => {
         },
     });
 });
+
+$('#answer').submit((e) => {
+    e.preventDefault();
+
+    $.ajax({
+        type: "POST",
+        url: `/question/${questionId}/answer`,
+        data: {
+            answer: $('#answer-input').val()
+        },
+        success: () => {
+            $('#answer-input').val('');
+        },
+    });
+});

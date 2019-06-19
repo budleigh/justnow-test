@@ -33,11 +33,11 @@ def entry(request, date=None):
 
     day_entry, _ = Entry.objects.get_or_create(user=request.user, date=parser.parse(date))
     questions = day_entry.questions.all()
-    questions = filter(lambda x: len(x.answers.all()) > 0, questions)
+    questions = [question for question in questions]
     return render(request, 'entry.html', {
         'entry': day_entry,
         'date': date,
-        'question': Question.objects.random() if random.random() > 0.75 else None,
+        'question': Question.objects.random() if random.random() > 0.1 else None,
         'asked_questions': questions,
     })
 
@@ -71,10 +71,14 @@ def ask(request, date=None):
 @login_required
 def answer(request, question_id=None):
     question = Question.objects.get(pk=question_id)
-    question.answers.add(Answer.objects.create(
+    answer = Answer.objects.create(
+        question=question,
+        user=request.user,
         text=request.POST['answer'],
-        private=request.POST['private'],
-    ))
+        private=False,
+    )
+    answer.save()
+    return HttpResponse(status=201)
 
 
 @require_POST
