@@ -13,8 +13,13 @@ class Entry(models.Model):
 class QuestionManager(models.Manager):
     def random(self):
         count = self.aggregate(count=Count('id'))['count']
-        random_index = randint(0, count - 1)
-        return self.all()[random_index]
+        if count == 1:
+            return self.all()[0]
+        elif count > 1:
+            random_index = randint(0, count - 1)
+            return self.all()[random_index]
+        else:
+            return None
 
 
 class Question(models.Model):
