@@ -21,6 +21,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('home/', home, name='home'),
     path('auth/', auth),
+    path('logout/', signout),
     path('entry/<date>', entry, name='entry'),
     path('entry/<date>/save', save),
     path('entry/<date>/ask', ask),

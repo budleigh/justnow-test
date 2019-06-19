@@ -42,6 +42,12 @@ def entry(request, date=None):
     })
 
 
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('index')
+
+
 @csrf_exempt
 @require_POST
 @login_required
