@@ -1,4 +1,5 @@
 Django==2.2.2
+gunicorn==19.9.0
 py-dateutil==2.2
 pytz==2019.1
 six==1.12.0
